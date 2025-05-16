@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "description": "New automation template",
+  "targeturl": "https://www.google.com",
+  "steps": [
+    {
+      "type": "wait_for_element",
+      "selector": "#example",
+      "value": null,
+      "script": null,
+      "description": "Wait for an element to load"
+    }
+  ],
+  "filepath": null,
+  "filename": null
+}

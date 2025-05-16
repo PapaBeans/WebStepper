@@ -1,0 +1,101 @@
+{
+  "version": "1.0",
+  "description": "Farmers Auto Insurance Quote Template",
+  "targetUrl": "https://www.farmers.com/quote/auto-insurance/",
+  "steps": [
+    {
+      "type": "wait_for_element",
+      "selector": "#zipCode",
+      "description": "Wait for ZIP code input field to load"
+    },
+    {
+      "type": "fill_form",
+      "selector": "#zipCode",
+      "value": "90210",
+      "description": "Enter ZIP code"
+    },
+    {
+      "type": "click_button",
+      "selector": "#zipCode-button",
+      "description": "Click the Start Quote button"
+    },
+    {
+      "type": "wait_for_element",
+      "selector": "#fname",
+      "description": "Wait for personal information form"
+    },
+    {
+      "type": "fill_form",
+      "selector": "#fname",
+      "value": "John",
+      "description": "Enter first name"
+    },
+    {
+      "type": "fill_form",
+      "selector": "#lname",
+      "value": "Smith",
+      "description": "Enter last name"
+    },
+    {
+      "type": "fill_form",
+      "selector": "#email",
+      "value": "test@example.com",
+      "description": "Enter email address"
+    },
+    {
+      "type": "fill_form",
+      "selector": "#streetAddr",
+      "value": "123 Main St",
+      "description": "Enter street address"
+    },
+    {
+      "type": "fill_form",
+      "selector": "#dob",
+      "value": "01/01/1980",
+      "description": "Enter date of birth"
+    },
+    {
+      "type": "click_button",
+      "selector": "#continueButton",
+      "description": "Click continue button"
+    },
+    {
+      "type": "wait_for_element",
+      "selector": "#vehicle-year",
+      "description": "Wait for vehicle information form"
+    },
+    {
+      "type": "fill_form",
+      "selector": "#vehicle-year",
+      "value": "2020",
+      "description": "Enter vehicle year"
+    },
+    {
+      "type": "fill_form",
+      "selector": "#vehicle-make",
+      "value": "Toyota",
+      "description": "Enter vehicle make"
+    },
+    {
+      "type": "fill_form",
+      "selector": "#vehicle-model",
+      "value": "Camry",
+      "description": "Enter vehicle model"
+    },
+    {
+      "type": "click_button",
+      "selector": "#vehicleSubmitButton",
+      "description": "Submit vehicle information"
+    },
+    {
+      "type": "wait_for_element",
+      "selector": ".coverage-options",
+      "description": "Wait for coverage options"
+    },
+    {
+      "type": "execute_script",
+      "script": "console.log('Quote process completed successfully.'); return document.querySelector('.quote-premium') ? document.querySelector('.quote-premium').innerText : 'Premium information not found';",
+      "description": "Log completion and capture premium amount"
+    }
+  ]
+}
