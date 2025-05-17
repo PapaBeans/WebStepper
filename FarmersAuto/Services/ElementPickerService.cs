@@ -1,12 +1,12 @@
 using System;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace InsuranceAutomation.Services
 {
@@ -210,34 +210,64 @@ namespace InsuranceAutomation.Services
         /// </summary>
         private void CoreWebView2_WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs e)
         {
-            string message = e.WebMessageAsJson;
+            string message = e.TryGetWebMessageAsString();
             
             try
             {
-                // Parse the message
-                dynamic data = JsonConvert.DeserializeObject(message);
-                
-                // Check if the message is a cancellation
-                if (data?.canceled == true)
+                // First check if the message contains a cancellation string directly
+                if (message.Contains("\"canceled\":true"))
                 {
                     isPickingActive = false;
                     PickingCanceled?.Invoke(this, EventArgs.Empty);
                     return;
                 }
                 
-                // Process the selected element info
-                ElementSelectorInfo selectorInfo = JsonConvert.DeserializeObject<ElementSelectorInfo>(message);
-                
-                // Stop the picker if it's still active
-                isPickingActive = false;
-                StopPickingAsync().ConfigureAwait(false);
-                
-                // Raise the event
-                ElementSelected?.Invoke(this, new ElementSelectedEventArgs(selectorInfo));
+                try
+                { 
+                    // Try to parse the message as JSON
+                    JObject jsonObject = JObject.Parse(message);
+                    
+                    // Check again for cancellation but with proper JSON parsing
+                    if (jsonObject["canceled"] != null && jsonObject["canceled"].Value<bool>())
+                    {
+                        isPickingActive = false;
+                        PickingCanceled?.Invoke(this, EventArgs.Empty);
+                        return;
+                    }
+                    
+                    // Process the selected element info
+                    var selectorInfo = jsonObject.ToObject<ElementSelectorInfo>();
+                    
+                    if (selectorInfo != null && !string.IsNullOrEmpty(selectorInfo.Optimal))
+                    {
+                        // Stop the picker if it's still active
+                        isPickingActive = false;
+                        StopPickingAsync().ConfigureAwait(false);
+                        
+                        // Raise the event
+                        ElementSelected?.Invoke(this, new ElementSelectedEventArgs(selectorInfo));
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException($"Received invalid selector data: {message}");
+                    }
+                }
+                catch (JsonReaderException)
+                {
+                    // If JSON parsing fails, try to deserialize directly
+                    var selectorInfo = JsonConvert.DeserializeObject<ElementSelectorInfo>(message);
+                    
+                    if (selectorInfo != null && !string.IsNullOrEmpty(selectorInfo.Optimal))
+                    {
+                        isPickingActive = false;
+                        StopPickingAsync().ConfigureAwait(false);
+                        ElementSelected?.Invoke(this, new ElementSelectedEventArgs(selectorInfo));
+                    }
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error processing element selection: {ex.Message}", 
+                MessageBox.Show($"Error processing element selection: {ex.Message}\n\nMessage: {message}", 
                     "Element Picker Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -355,6 +385,12 @@ namespace InsuranceAutomation.Services
         /// Gets or sets alternative selectors.
         /// </summary>
         public string[] Alternatives { get; set; }
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether this message is a cancellation.
+        /// </summary>
+        [JsonProperty("canceled")]
+        public bool Canceled { get; set; }
     }
 
     /// <summary>

@@ -618,27 +618,37 @@ namespace InsuranceAutomation.UI.Dialogs
             return (true, null);
         }
 
-        private void PropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        private void PropertyGrid_PropertyValueChanged(object sender, PropertyValueChangedEventArgs e)
         {
             if (selectedStep != null)
             {
                 // Update the step control UI
                 selectedStep.UpdateUI();
-                
+
                 // Update the template and JSON preview
                 SynchronizeTemplateWithControls();
                 UpdateJsonPreview();
-                
+
                 hasUnsavedChanges = true;
-                
+
                 // If the property is a selector, check if we want to show the picker button
-                if (e.PropertyDescriptor.Name == "Selector")
+                var changedItem = e.ChangedItem;
+                if (changedItem != null)
                 {
-                    // Show selector picker dialog
-                    ShowSelectorPicker(selectedStep.Step);
+                    // Option A: via the descriptor
+                    var pd = changedItem.PropertyDescriptor;
+                    if (pd != null && pd.Name == "Selector")
+                        ShowSelectorPicker(selectedStep.Step);
+
+                    // — or —
+
+                    // Option B: via the display label
+                    // if (changedItem.Label == "Selector")
+                    //     ShowSelectorPicker(selectedStep.Step);
                 }
             }
         }
+
 
         private void WaitForElementToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -888,10 +898,7 @@ namespace InsuranceAutomation.UI.Dialogs
         }
 
         private void VisualTemplateEditorForm_FormClosing(object sender, FormClosingEventArgs e)
-        protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            base.OnFormClosing(e);
-            
             // Unsubscribe from element picker events
             if (elementPickerService != null)
             {

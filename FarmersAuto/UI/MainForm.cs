@@ -13,6 +13,7 @@ using InsuranceAutomation.UI.Dialogs;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
 using System.Text;
+using System.Diagnostics.Eventing.Reader;
 
 namespace InsuranceAutomation.UI
 {
@@ -322,26 +323,41 @@ namespace InsuranceAutomation.UI
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-        
+
             try
             {
-                using (var pickerDialog = new SelectorPickerDialog(webView, step.Selector))
+                // Can't use 'using' with Show() since it returns immediately
+                var pickerDialog = new SelectorPickerDialog(webView, step.Selector);
+                
+                // Need to set up an event handler to get the selector when chosen
+                pickerDialog.FormClosed += (sender, e) => 
                 {
-                    if (pickerDialog.ShowDialog() == DialogResult.OK)
+                    // Check if the user selected something (we'd need to add this property)
+                    if (pickerDialog.DialogResult == DialogResult.OK)
                     {
-                        // Update the step with the selected selector
-                        step.Selector = pickerDialog.SelectedSelector;
-                    
-                        // Refresh the steps list
-                        stepsListBox.Items.Clear();
-                        foreach (var s in currentTemplate.Steps)
+                        if (stepsListBox.SelectedIndex >= 0 && currentTemplate != null)
                         {
-                            stepsListBox.Items.Add(s.GetDisplayText());
+                            var step = currentTemplate.Steps[stepsListBox.SelectedIndex];
+
+                            // Update the step with the selected selector
+                            step.Selector = pickerDialog.SelectedSelector;
+
+                            //Save the template
+                            templateService.SaveTemplate(currentTemplate, currentTemplate.FilePath);
+                            
+                            loggingService.LogInfo($"MainForm_ShowElementPicker: Updated selector for step {stepsListBox.SelectedIndex + 1} to: {step.Selector}");
                         }
-                    
-                        loggingService.LogInfo($"Updated selector for step {stepsListBox.SelectedIndex + 1} to: {step.Selector}");
+                        else
+                        {
+                            loggingService.LogInfo($"MainForm_ShowElementPicker: Failed to update selector for step {stepsListBox.SelectedIndex + 1} to: {step.Selector}");
+                        }
                     }
-                }
+
+                    // Dispose the form manually since we're not using 'using'
+                    pickerDialog.Dispose();
+                };
+                
+                pickerDialog.Show();
             }
             catch (Exception ex)
             {
@@ -369,7 +385,7 @@ namespace InsuranceAutomation.UI
                 // Refresh the steps list
                 stepsListBox.Items[stepsListBox.SelectedIndex] = step.GetDisplayText();
             
-                loggingService.LogInfo($"Updated selector for step {stepsListBox.SelectedIndex + 1} to: {step.Selector}");
+                loggingService.LogInfo($"ElementPickerService_ElementSelected: Updated selector for step #{stepsListBox.SelectedIndex + 1} to: {step.Selector}");
             }
         }
     

@@ -170,6 +170,8 @@
             
             // Call back to C# application with selected element info
             if (window[callbackName] && typeof window[callbackName] === 'function') {
+                // Add a property to clearly indicate this is NOT a cancellation
+                selectorInfo.isCancellation = false;
                 window[callbackName](JSON.stringify(selectorInfo));
             } else {
                 console.error(`Callback function "${callbackName}" not found`);
@@ -193,8 +195,9 @@
         if (event.key === 'Escape') {
             stop();
             
-            // Notify cancellation
+            // Notify cancellation with a simple, explicit structure
             if (window[callbackName] && typeof window[callbackName] === 'function') {
+                // Use a simple format that's easy to parse and explicitly check
                 window[callbackName]('{"canceled":true}');
             }
         }

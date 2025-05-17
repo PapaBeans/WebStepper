@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using InsuranceAutomation.Models;
 using InsuranceAutomation.Services;
@@ -33,7 +34,8 @@ namespace InsuranceAutomation.UI.Dialogs
         public SelectorPickerDialog(WebView2 webView, string initialSelector = null)
         {
             InitializeComponent();
-            
+            SetupButtonHandlers();
+
             this.webView = webView ?? throw new ArgumentNullException(nameof(webView));
             this.initialSelector = initialSelector;
             this.elementPickerService = ElementPickerService.Instance;
@@ -276,6 +278,21 @@ namespace InsuranceAutomation.UI.Dialogs
 
         }
 
+        private void SetupButtonHandlers()
+        {
+            // Assuming you have an OK button named btnOK and a Cancel button named btnCancel
+            okButton.Click += (sender, e) =>
+            {
+                DialogResult = DialogResult.OK;
+                Close(); // Explicitly close the form
+            };
+
+            cancelButton.Click += (sender, e) =>
+            {
+                DialogResult = DialogResult.Cancel;
+                Close(); // Explicitly close the form
+            };
+        }
         private async void PickElementButton_Click(object sender, EventArgs e)
         {
             try
