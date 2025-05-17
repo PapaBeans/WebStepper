@@ -79,6 +79,7 @@
     <Compile Include="Services\LoggingService.cs" />
     <Compile Include="Services\TemplateService.cs" />
     <Compile Include="Services\WebViewAutomationService.cs" />
+    <Compile Include="Services\ElementPickerService.cs" />
     <Compile Include="UI\Dialogs\DiffViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +110,21 @@
     <Compile Include="UI\Dialogs\VersionHistoryForm.Designer.cs">
       <DependentUpon>VersionHistoryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Dialogs\SelectorPickerDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\VisualTemplateEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\VisualTemplateEditorForm.Designer.cs">
+      <DependentUpon>VisualTemplateEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\StepControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\PropertyTypeEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +152,12 @@
     <EmbeddedResource Include="UI\Dialogs\VersionHistoryForm.resx">
       <DependentUpon>VersionHistoryForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\SelectorPickerDialog.resx">
+      <DependentUpon>SelectorPickerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\VisualTemplateEditorForm.resx">
+      <DependentUpon>VisualTemplateEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -159,8 +181,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
     <Folder Include="Templates\" />
+    <Folder Include="UI\Controls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ElementPicker.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Microsoft.Web.WebView2.1.0.1343.22\build\Microsoft.Web.WebView2.targets" Condition="Exists('packages\Microsoft.Web.WebView2.1.0.1343.22\build\Microsoft.Web.WebView2.targets')" />
