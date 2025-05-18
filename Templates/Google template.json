@@ -1,0 +1,79 @@
+{
+  "Id": "26b791c5-dfb8-4950-81c9-82ee3b40de72",
+  "Name": "Google template",
+  "Description": "Template made while developing this application",
+  "Category": "Testing",
+  "Version": "1.0.0",
+  "Pages": [
+    {
+      "Id": "794a5c11-87a8-436a-8feb-4672f140296a",
+      "Name": "Google Landing Page",
+      "PageIdentifierSelector": "textarea[title='Search']",
+      "Steps": [
+        {
+          "Id": "f6b42e3f-a161-4b62-9690-8e00497bf8e0",
+          "Name": "Wait For Searchbar",
+          "Type": 0,
+          "Selector": "textarea[aria-label='Search']",
+          "Value": "",
+          "WaitBeforeMs": 1000,
+          "WaitAfterMs": 0,
+          "MaxWaitMs": 10000,
+          "Description": ""
+        },
+        {
+          "Id": "0e46c555-3f0a-426c-a8c5-1b7207bcbb67",
+          "Name": "Type into searchbar",
+          "Type": 1,
+          "Selector": "textarea[title='Search']",
+          "Value": "Farmers Insurance Charity",
+          "WaitBeforeMs": 0,
+          "WaitAfterMs": 0,
+          "MaxWaitMs": 5000,
+          "Description": ""
+        },
+        {
+          "Id": "3803424a-115d-4098-9c4e-1910fa1de822",
+          "Name": "Google Search",
+          "Type": 2,
+          "Selector": "div.L3eUgb > div.o3j99.ikrT4e.om7nvf:nth-of-type(3) > form > div > div.A8SBwf > div.FPdoLc.lJ9FBc:nth-of-type(3) > center > input.gNO89b",
+          "Value": "",
+          "WaitBeforeMs": 0,
+          "WaitAfterMs": 0,
+          "MaxWaitMs": 5000,
+          "Description": ""
+        }
+      ]
+    },
+    {
+      "Id": "794g2125-87a8-436a-8feb-4672f140296a",
+      "Name": "Searched page",
+      "PageIdentifierSelector": "//*[@id='botstuff']/div[1]/div[3]",
+      "Steps": [
+        {
+          "Id": "4f9a82cb-9a14-41e8-8e2f-d2e2291f93b6",
+          "Name": "Wait for first search element to show",
+          "Type": 0,
+          "Selector": "//*[@id='rso']/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/span[1]/a[1]/h3[1]",
+          "Value": "",
+          "WaitBeforeMs": 1500,
+          "WaitAfterMs": 0,
+          "MaxWaitMs": 5000,
+          "Description": ""
+        },
+        {
+          "Id": "54bc2945-406e-4221-8bad-143f7c0973a0",
+          "Name": "Click that first element",
+          "Type": 2,
+          "Selector": "//*[@id='rso']/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/span[1]/a[1]/h3[1]",
+          "Value": "",
+          "WaitBeforeMs": 0,
+          "WaitAfterMs": 0,
+          "MaxWaitMs": 5000,
+          "Description": ""
+        }
+      ]
+    }
+  ],
+  "Variables": {}
+}

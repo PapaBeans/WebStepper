@@ -1,0 +1,163 @@
+{
+  "id": "sample-progressive-auto-quote",
+  "name": "Progressive Auto Insurance Quote (Sample)",
+  "description": "Sample template for automating Progressive auto insurance quote process",
+  "category": "Auto/FL/Progressive",
+  "version": "1.0.0",
+  "pages": [
+    {
+      "id": "page1",
+      "name": "Start Page",
+      "pageIdentifierSelector": ".welcome-heading",
+      "steps": [
+        {
+          "id": "step1",
+          "name": "Enter ZIP Code",
+          "type": "FillForm",
+          "selector": "#zipCode",
+          "value": "{ZipCode}",
+          "waitBeforeMs": 500,
+          "waitAfterMs": 0,
+          "description": "Fill in the ZIP code field"
+        },
+        {
+          "id": "step2",
+          "name": "Click Get Quote",
+          "type": "ClickButton",
+          "selector": "#get-quote-button",
+          "waitBeforeMs": 500,
+          "waitAfterMs": 1000,
+          "description": "Click the Get Quote button to proceed"
+        }
+      ]
+    },
+    {
+      "id": "page2",
+      "name": "Personal Information",
+      "pageIdentifierSelector": ".personal-info-heading",
+      "steps": [
+        {
+          "id": "step3",
+          "name": "Wait For Form Load",
+          "type": "WaitForElement",
+          "selector": "#personal-info-form",
+          "maxWaitMs": 5000,
+          "description": "Wait for the personal information form to load"
+        },
+        {
+          "id": "step4",
+          "name": "Fill First Name",
+          "type": "FillForm",
+          "selector": "#firstName",
+          "value": "{FirstName}",
+          "waitBeforeMs": 0,
+          "waitAfterMs": 0,
+          "description": "Enter the customer's first name"
+        },
+        {
+          "id": "step5",
+          "name": "Fill Last Name",
+          "type": "FillForm",
+          "selector": "#lastName",
+          "value": "{LastName}",
+          "waitBeforeMs": 0,
+          "waitAfterMs": 0,
+          "description": "Enter the customer's last name"
+        },
+        {
+          "id": "step6",
+          "name": "Fill Date of Birth",
+          "type": "FillForm",
+          "selector": "#dateOfBirth",
+          "value": "{DateOfBirth}",
+          "waitBeforeMs": 0,
+          "waitAfterMs": 0,
+          "description": "Enter the customer's date of birth in MM/DD/YYYY format"
+        },
+        {
+          "id": "step7",
+          "name": "Fill Email",
+          "type": "FillForm",
+          "selector": "#email",
+          "value": "{Email}",
+          "waitBeforeMs": 0,
+          "waitAfterMs": 0,
+          "description": "Enter the customer's email address"
+        },
+        {
+          "id": "step8",
+          "name": "Click Continue Button",
+          "type": "ClickButton",
+          "selector": "#continue-button",
+          "waitBeforeMs": 500,
+          "waitAfterMs": 1000,
+          "description": "Click the Continue button to proceed to the next page"
+        }
+      ]
+    },
+    {
+      "id": "page3",
+      "name": "Vehicle Information",
+      "pageIdentifierSelector": ".vehicle-info-heading",
+      "steps": [
+        {
+          "id": "step9",
+          "name": "Wait For Vehicle Form",
+          "type": "WaitForElement",
+          "selector": "#vehicle-form",
+          "maxWaitMs": 5000,
+          "description": "Wait for the vehicle information form to load"
+        },
+        {
+          "id": "step10",
+          "name": "Select Vehicle Year",
+          "type": "FillForm",
+          "selector": "#vehicle-year",
+          "value": "{VehicleYear}",
+          "waitBeforeMs": 500,
+          "waitAfterMs": 500,
+          "description": "Select the vehicle year from the dropdown"
+        },
+        {
+          "id": "step11",
+          "name": "Select Vehicle Make",
+          "type": "FillForm",
+          "selector": "#vehicle-make",
+          "value": "{VehicleMake}",
+          "waitBeforeMs": 500,
+          "waitAfterMs": 500,
+          "description": "Select the vehicle make from the dropdown"
+        },
+        {
+          "id": "step12",
+          "name": "Select Vehicle Model",
+          "type": "FillForm",
+          "selector": "#vehicle-model",
+          "value": "{VehicleModel}",
+          "waitBeforeMs": 500,
+          "waitAfterMs": 500,
+          "description": "Select the vehicle model from the dropdown"
+        },
+        {
+          "id": "step13",
+          "name": "Click Continue Button",
+          "type": "ClickButton",
+          "selector": "#vehicle-continue-button",
+          "waitBeforeMs": 500,
+          "waitAfterMs": 1000,
+          "description": "Click the Continue button to proceed to the next page"
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "ZipCode": "33101",
+    "FirstName": "John",
+    "LastName": "Doe",
+    "DateOfBirth": "01/01/1980",
+    "Email": "john.doe@example.com",
+    "VehicleYear": "2020",
+    "VehicleMake": "Toyota",
+    "VehicleModel": "Camry"
+  }
+}
